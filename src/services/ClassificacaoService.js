@@ -51,4 +51,4 @@ class ClassificacaoService {
     }
 }
 
-module.exports = new ClassificacaoService();
+module.exports = ClassificacaoService;

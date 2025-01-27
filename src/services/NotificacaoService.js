@@ -51,4 +51,4 @@ class NotificacaoService {
     }
 }
 
-module.exports = new NotificacaoService();
+module.exports = NotificacaoService;

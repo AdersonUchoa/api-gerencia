@@ -51,4 +51,4 @@ class TarefaService {
     }
 }
 
-module.exports = new TarefaService();
+module.exports = TarefaService;

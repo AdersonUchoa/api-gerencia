@@ -51,4 +51,4 @@ class UsuarioService {
     }
 }
 
-module.exports = UsuarioService;
+module.exports = new UsuarioService();

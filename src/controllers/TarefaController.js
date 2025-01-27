@@ -82,4 +82,4 @@ class TarefaController {
     }
 }
 
-module.exports = TarefaController;
+module.exports = new TarefaController();

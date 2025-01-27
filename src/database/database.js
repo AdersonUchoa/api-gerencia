@@ -19,4 +19,4 @@ sequelize
         console.error("Não foi possível a conexão com o banco de dados: " ,err);
     });
 
-    module.exports = sequelize;
+module.exports = sequelize;

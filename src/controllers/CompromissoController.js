@@ -84,4 +84,4 @@ class CompromissoController {
     }
 }
 
-module.exports = CompromissoController;
+module.exports = new CompromissoController();

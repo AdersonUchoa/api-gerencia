@@ -1,22 +1,27 @@
 const express = require("express");
 const router = express.Router();
+const { verifyAuth } = require("../middleware/auth");
 const NotificacaoController = require("../controllers/NotificacaoController");
 
 router.get(
     "/notificacao",
-    NotificacaoController.getNotificacao()
+    verifyAuth,
+    NotificacaoController.getNotificacao
 );
 router.post(
     "/notificacao",
-    NotificacaoController.postNotificacao()
+    verifyAuth,
+    NotificacaoController.postNotificacao
 );
 router.put(
     "/notificacao/:notificacao_id",
-    NotificacaoController.putNotificacao()
+    verifyAuth,
+    NotificacaoController.putNotificacao
 );
 router.delete(
     "/notificacao/:notificacao_id",
-    NotificacaoController.deleteNotificacao()
+    verifyAuth,
+    NotificacaoController.deleteNotificacao
 );
 
 module.exports = router;

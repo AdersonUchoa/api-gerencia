@@ -80,4 +80,4 @@ class NotificacaoController {
     }
 }
 
-module.exports = NotificacaoController;
+module.exports = new NotificacaoController();

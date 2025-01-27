@@ -1,22 +1,27 @@
 const express = require("express");
 const router = express.Router();
+const { verifyAuth } = require("../middleware/auth");
 const CompromissoController = require("../controllers/CompromissoController");
 
 router.get(
     "/compromisso",
-    CompromissoController.getCompromisso()
+    verifyAuth,
+    CompromissoController.getCompromisso
 );
 router.post(
     "/compromisso",
-    CompromissoController.postCompromisso()
+    verifyAuth,
+    CompromissoController.postCompromisso
 );
 router.put(
     "/compromisso/:compromisso_id",
-    CompromissoController.putCompromisso()
+    verifyAuth,
+    CompromissoController.putCompromisso
 );
 router.delete(
     "/compromisso/:compromisso_id",
-    CompromissoController.deleteCompromisso()
+    verifyAuth,
+    CompromissoController.deleteCompromisso
 );
 
 module.exports = router;

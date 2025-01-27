@@ -1,22 +1,27 @@
 const express = require("express");
+const { verifyAuth } = require("../middleware/auth");
 const router = express.Router();
 const TarefaController = require("../controllers/TarefaController");
 
 router.get(
     "/tarefa",
-    TarefaController.getTarefa()
+    verifyAuth,
+    TarefaController.getTarefa
 );
 router.post(
     "/tarefa",
-    TarefaController.postTarefa()
+    verifyAuth,
+    TarefaController.postTarefa
 );
 router.put(
     "/tarefa/:tarefa_id",
-    TarefaController.putTarefa()
+    verifyAuth,
+    TarefaController.putTarefa
 );
 router.delete(
     "/tarefa/:tarefa_id",
-    TarefaController.deleteTarefa()
+    verifyAuth,
+    TarefaController.deleteTarefa
 );
 
 module.exports = router;

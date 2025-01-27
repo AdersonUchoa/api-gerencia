@@ -51,4 +51,4 @@ class CompromissoService {
     }
 }
 
-module.exports = CompromissoService;
+module.exports = new CompromissoService();

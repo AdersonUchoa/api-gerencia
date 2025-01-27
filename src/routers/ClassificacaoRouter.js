@@ -1,22 +1,27 @@
 const express = require("express");
 const router = express.Router();
+const { verifyAuth } = require("../middleware/auth");
 const ClassificacaoController = require("../controllers/ClassificacaoController");
 
 router.get(
     "/classificacao",
-    ClassificacaoController.getClassificacao()
+    verifyAuth,
+    ClassificacaoController.getClassificacao
 );
 router.post(
     "/classificacao",
-    ClassificacaoController.postClassificacao()
+    verifyAuth,
+    ClassificacaoController.postClassificacao
 );
 router.put(
     "/classificacao/:classificacao_id",
-    ClassificacaoController.putClassificacao()
+    verifyAuth,
+    ClassificacaoController.putClassificacao
 );
 router.delete(
     "/classificacao/:classificacao_id",
-    ClassificacaoController.deleteClassificacao()
+    verifyAuth,
+    ClassificacaoController.deleteClassificacao
 );
 
 module.exports = router;

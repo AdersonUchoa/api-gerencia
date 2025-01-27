@@ -78,4 +78,4 @@ class ClassificacaoController {
     }
 }
 
-module.exports = ClassificacaoController;
+module.exports = new ClassificacaoController();

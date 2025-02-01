@@ -19,6 +19,10 @@ const Notificacao = sequelize.define("Notificacao", {
     descricao: {
         type: DataTypes.STRING(100),
         allowNull: false
+    },
+    hora: {
+        type: DataTypes.DATE,
+        allowNull: false
     }
 });
 

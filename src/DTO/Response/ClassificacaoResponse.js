@@ -1,12 +1,13 @@
 class ClassificacaoResponse{
-    constructor({ classificacao_id, usuario_id, titulo }) {
-        this.classificacao_id = classificacao_id;
+    constructor({ id, usuario_id, titulo }) {
+        this.id = id;
         this.usuario_id = usuario_id;
         this.titulo = titulo;
     }
 
     static fromModel(obj){
         return{
+            id: obj.id,
             usuario_id: obj.usuario_id,
             titulo: obj.titulo
         }

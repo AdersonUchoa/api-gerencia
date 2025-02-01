@@ -8,26 +8,26 @@ class NotificacaoService {
         return response;
     }
 
-    async postNotificacao(compromisso_id, titulo, descricao){
+    async postNotificacao(compromisso_id, titulo, descricao, hora){
         const query = `
-            INSERT INTO notificacao (compromisso_id, titulo, descricao)
-            VALUES (:compromisso_id, :titulo, :descricao)
+            INSERT INTO notificacao (idCompromisso, titulo, descricao, hora)
+            VALUES (:compromisso_id, :titulo, :descricao, :hora)
             RETURNING*`;
         const [results] = await sequelize.query(query, { 
-            replacements: { compromisso_id, titulo, descricao },
+            replacements: { compromisso_id, titulo, descricao, hora },
         });
 
         return results[0]
     }
 
-    async putNotificacao(notificacao_id, compromisso_id, titulo, descricao){
+    async putNotificacao(notificacao_id, titulo, descricao, hora){
         const query = `
             UPDATE notificacao
-            SET compromisso_id = :compromisso_id, titulo = :titulo, descricao = :descricao
-            WHERE notificacao_id = :notificacao_id
+            SET  titulo = :titulo, descricao = :descricao, hora = :hora
+            WHERE id = :notificacao_id
             RETURNING*`;
         const [results] = await sequelize.query(query, {
-            replacements: { notificacao_id, compromisso_id, titulo, descricao },
+            replacements: { notificacao_id, titulo, descricao, hora },
         });
 
         if (results.length === 0) {
@@ -38,7 +38,7 @@ class NotificacaoService {
     }
 
     async deleteNotificacao(notificacao_id){
-        const query = `DELETE FROM notificacao WHERE notificacao_id = :notificacao_id RETURNING*`;
+        const query = `DELETE FROM notificacao WHERE id = :notificacao_id RETURNING*`;
         const [results] = await sequelize.query(query, {
             replacements: { notificacao_id },
         });

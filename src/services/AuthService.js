@@ -17,11 +17,13 @@ class AuthService {
       }
     );
     const user = query[0];
+    console.log(query);
     if (user.senha === loginDTO.senha) {
       const tokenObj = {
         nome: user.nome,
+        usuario_id: user.id,
       };
-      return jwt.sign(tokenObj, process.env.JWT_SECURE, { expiresIn: 300 });
+      return jwt.sign(tokenObj, process.env.JWT_SECURE, { expiresIn: 3000 });
     }
     return null;
   }

@@ -1,12 +1,13 @@
 class UsuarioResponse {
-    constructor({ usuario_id, nome, senha}) {
-        this.usuario_id = usuario_id;
+    constructor({ id, nome, senha}) {
+        this.id = id;
         this.nome = nome;
         this.senha = senha;
     }
 
     static fromModel(obj){
         return {
+            id: obj.id,
             nome: obj.nome,
             senha: obj.senha
         };

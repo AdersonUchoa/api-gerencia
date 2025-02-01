@@ -21,11 +21,13 @@ class NotificacaoController {
 
     async postNotificacao(req, res) {
         try{
-            const { compromisso_id, titulo, descricao } = req.body;
+            const { compromisso_id } = req.params;
+            const { titulo, descricao, hora } = req.body;
             const result = await NotificacaoService.postNotificacao(
                 compromisso_id,
                 titulo,
                 descricao,
+                hora
             );
             const response = ResponseModel(
                 201,
@@ -34,6 +36,7 @@ class NotificacaoController {
             );
             res.status(201).send(response);
         }catch (error){
+            console.log(error);
             const response = ResponseModel(404, null, MessageModel.postFail("notificacao"));
             res.status(404).send(response);
         }
@@ -42,12 +45,12 @@ class NotificacaoController {
     async putNotificacao(req, res) {
         try{
             const { notificacao_id } = req.params;
-            const { compromisso_id, titulo, descricao } = req.body;
+            const { titulo, descricao, hora } = req.body;
             const result = await NotificacaoService.putNotificacao(
                 notificacao_id,
-                compromisso_id,
                 titulo,
                 descricao,
+                hora,
             );
             const response = ResponseModel(
                 200,
@@ -56,6 +59,7 @@ class NotificacaoController {
             );
             res.status(200).send(response);
         }catch (error){
+            console.log(error);
             const response = ResponseModel(404, null, MessageModel.putFail("notificacao"));
             res.status(404).send(response);
         }

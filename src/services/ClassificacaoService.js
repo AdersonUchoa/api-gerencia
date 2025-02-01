@@ -24,7 +24,7 @@ class ClassificacaoService {
         const query = `
             UPDATE classificacao
             SET usuario_id = :usuario_id, titulo = :titulo
-            WHERE classificacao_id = :classificacao_id
+            WHERE id = :classificacao_id
             RETURNING*`;
         const [results] = await sequelize.query(query, {
             replacements: { classificacao_id, usuario_id, titulo },
@@ -38,7 +38,7 @@ class ClassificacaoService {
     }
 
     async deleteClassificacao(classificacao_id){
-        const query = `DELETE FROM classificacao WHERE classificacao_id = :classificacao_id RETURNING*`;
+        const query = `DELETE FROM classificacao WHERE id = :classificacao_id RETURNING*`;
         const [results] = await sequelize.query(query, {
             replacements: { classificacao_id },
         });

@@ -5,7 +5,8 @@ const MessageModel = require("../models/MessageModel");
 class CompromissoController {
     async getCompromisso(req, res) {
         try{
-            const result = await CompromissoService.getCompromisso();
+            const { usuario_id } = req.userData;
+            const result = await CompromissoService.getCompromisso(usuario_id);
             const response = ResponseModel(
                 200,
                 result,
@@ -21,7 +22,8 @@ class CompromissoController {
 
     async postCompromisso(req, res) {
         try{
-            const { usuario_id, titulo, descricao, dataCompromisso, horario } = req.body;
+            const { usuario_id } = req.userData;
+            const { titulo, descricao, dataCompromisso, horario } = req.body;
             const result = await CompromissoService.postCompromisso(
                 usuario_id,
                 titulo,
@@ -36,6 +38,7 @@ class CompromissoController {
             );
             res.status(201).send(response);
         }catch (error){
+            console.log(error);
             const response = ResponseModel(404, null, MessageModel.postFail("compromisso"));
             res.status(404).send(response);
         }

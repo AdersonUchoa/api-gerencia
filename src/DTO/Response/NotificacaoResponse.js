@@ -1,16 +1,19 @@
 class NotificacaoResponse {
-    constructor({ notificacao_id, compromisso_id, titulo, descricao }) {
-        this.notificacao_id = notificacao_id;
+    constructor({ id, compromisso_id, titulo, descricao, hora }) {
+        this.id = id;
         this.compromisso_id = compromisso_id;
         this.titulo = titulo;
         this.descricao = descricao;
+        this.hora = hora;
     }
 
     static fromModel(obj){
         return {
+            id: obj.id,
             compromisso_id: obj.compromisso_id,
             titulo: obj.titulo,
-            descricao: obj.descricao
+            descricao: obj.descricao,
+            hora: obj.hora,
         }
     }
 }

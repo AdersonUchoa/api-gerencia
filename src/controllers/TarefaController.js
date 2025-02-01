@@ -5,7 +5,8 @@ const MessageModel = require("../models/MessageModel");
 class TarefaController {
     async getTarefa(req, res) {
         try{
-            const result = await TarefaService.getTarefa();
+            const { compromisso_id } = req.params; 
+            const result = await TarefaService.getTarefa(compromisso_id);
             const response = ResponseModel(
                 200,
                 result,
@@ -21,7 +22,8 @@ class TarefaController {
 
     async postTarefa(req, res) {
         try{
-            const { compromisso_id, descricao, status, dataConclusao } = req.body;
+            const { compromisso_id } = req.params;
+            const { descricao, status, dataConclusao } = req.body;
             const result = await TarefaService.postTarefa(
                 compromisso_id,
                 descricao,
@@ -35,6 +37,7 @@ class TarefaController {
             );
             res.status(201).send(response);
         }catch (error){
+            console.log(error);
             const response = ResponseModel(404, null, MessageModel.postFail("tarefa"));
             res.status(404).send(response);
         }
@@ -43,10 +46,9 @@ class TarefaController {
     async putTarefa(req, res) {
         try{
             const { tarefa_id } = req.params;
-            const { compromisso_id, descricao, status, dataConclusao } = req.body;
+            const { descricao, status, dataConclusao } = req.body;
             const result = await TarefaService.putTarefa(
                 tarefa_id,
-                compromisso_id,
                 descricao,
                 status,
                 dataConclusao
@@ -58,6 +60,7 @@ class TarefaController {
             );
             res.status(200).send(response);
         }catch (error){
+            console.log(error);
             const response = ResponseModel(404, null, MessageModel.putFail("tarefa"));
             res.status(404).send(response);
         }
@@ -76,6 +79,7 @@ class TarefaController {
             );
             res.status(200).send(response);
         } catch(error){
+            console.log(error);
             const response = ResponseModel(404, null, MessageModel.deleteFail("tarefa"));
             res.status(404).send(response);
         }

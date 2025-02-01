@@ -21,7 +21,7 @@ const Compromisso = sequelize.define("Compromisso", {
         allowNull: false
     },
     dataCompromisso: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     horario: {

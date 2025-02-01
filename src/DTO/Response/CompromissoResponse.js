@@ -1,19 +1,20 @@
 class CompromissoResponse {
-    constructor({ compromisso_id, usuario_id, titulo, descricao, dataCompromisso, horario }) {
-        this.compromisso_id = compromisso_id;
+    constructor({ id, usuario_id, titulo, descricao, datacompromisso, horario }) {
+        this.id = id;
         this.usuario_id = usuario_id;
         this.titulo = titulo;
         this.descricao = descricao;
-        this.dataCompromisso = dataCompromisso;
+        this.datacompromisso = datacompromisso;
         this.horario = horario;
     }
 
     static fromModel(obj){
         return {
+            id: obj.id,
             usuario_id: obj.usuario_id,
             titulo: obj.titulo,
             descricao: obj.descricao,
-            dataCompromisso: obj.dataCompromisso,
+            datacompromisso: obj.datacompromisso,
             horario: obj.horario
         }
     }

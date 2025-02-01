@@ -4,22 +4,22 @@ const router = express.Router();
 const TarefaController = require("../controllers/TarefaController");
 
 router.get(
-    "/tarefa",
+    "/compromisso/:compromisso_id/tarefa",
     verifyAuth,
     TarefaController.getTarefa
 );
 router.post(
-    "/tarefa",
+    "/compromisso/:compromisso_id/tarefa",
     verifyAuth,
     TarefaController.postTarefa
 );
 router.put(
-    "/tarefa/:tarefa_id",
+    "/compromisso/tarefa/:tarefa_id",
     verifyAuth,
     TarefaController.putTarefa
 );
 router.delete(
-    "/tarefa/:tarefa_id",
+    "/compromisso/tarefa/:tarefa_id",
     verifyAuth,
     TarefaController.deleteTarefa
 );

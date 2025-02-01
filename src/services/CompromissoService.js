@@ -2,15 +2,15 @@ const sequelize = require("../database/database");
 const CompromissoResponse = require("../DTO/Response/CompromissoResponse");
 
 class CompromissoService {
-    async getCompromisso() {
-        const [results] = await sequelize.query("SELECT * FROM classificacao");
+    async getCompromisso(usuario_id) {
+        const [results] = await sequelize.query("SELECT * FROM compromisso WHERE idUsuario = :usuario_id", { replacements: { usuario_id }});
         const response = results.map(CompromissoResponse.fromModel);
         return response;
     }
 
     async postCompromisso(usuario_id, titulo, descricao, dataCompromisso, horario){
         const query = `
-            INSERT INTO classificacao (usuario_id, titulo, descricao, dataCompromisso, horario)
+            INSERT INTO compromisso (idUsuario, titulo, descricao, dataCompromisso, horario)
             VALUES (:usuario_id, :titulo, :descricao, :dataCompromisso, :horario)
             RETURNING*`;
         const [results] = await sequelize.query(query, { 
@@ -23,8 +23,8 @@ class CompromissoService {
     async putCompromisso(compromisso_id, usuario_id, titulo, descricao, dataCompromisso, horario){
         const query = `
             UPDATE compromisso
-            SET usuario_id = :usuario_id, titulo = :titulo, descricao = :descricao, dataCompromisso = :dataCompromisso, horario = :horario
-            WHERE compromisso_id = :compromisso_id
+            SET idUsuario = :usuario_id, titulo = :titulo, descricao = :descricao, dataCompromisso = :dataCompromisso, horario = :horario
+            WHERE id = :compromisso_id
             RETURNING*`;
         const [results] = await sequelize.query(query, {
             replacements: { compromisso_id, usuario_id, titulo, descricao, dataCompromisso, horario },
@@ -38,7 +38,7 @@ class CompromissoService {
     }
 
     async deleteCompromisso(compromisso_id){
-        const query = `DELETE FROM compromisso WHERE compromisso_id = :compromisso_id RETURNING*`;
+        const query = `DELETE FROM compromisso WHERE id = :compromisso_id RETURNING*`;
         const [results] = await sequelize.query(query, {
             replacements: { compromisso_id },
         });

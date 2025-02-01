@@ -24,7 +24,7 @@ class UsuarioService {
         const query = `
             UPDATE usuario
             SET nome = :nome, senha = :senha
-            WHERE usuario_id = :usuario_id
+            WHERE id = :usuario_id
             RETURNING*`;
         const [results] = await sequelize.query(query, {
             replacements: { usuario_id, nome, senha },
@@ -38,7 +38,7 @@ class UsuarioService {
     }
 
     async deleteUsuario(usuario_id){
-        const query = `DELETE FROM usuario WHERE usuario_id = :usuario_id RETURNING*`;
+        const query = `DELETE FROM usuario WHERE id = :usuario_id RETURNING*`;
         const [results] = await sequelize.query(query, {
             replacements: { usuario_id },
         });

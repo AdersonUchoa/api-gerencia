@@ -10,7 +10,6 @@ router.get(
 );
 router.post(
     "/usuario",
-    verifyAuth,
     UsuarioController.postUsuario
 );
 router.put(

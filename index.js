@@ -3,6 +3,7 @@ const sequelize = require("./src/database/database");
 const { verifyAuth } = require("./src/middleware/auth");
 const app = express();
 const PORT = 3000;
+const cors = require("cors");
 
 const AuthRouter = require("./src/routers/AuthRouter");
 const ClassificacaoRouter = require("./src/routers/ClassificacaoRouter");
@@ -11,6 +12,7 @@ const NotificacaoRouter = require("./src/routers/NotificacaoRouter");
 const TarefaRouter = require("./src/routers/TarefaRouter");
 const UsuarioRouter = require("./src/routers/UsuarioRouter");
 
+app.use(cors());
 app.use(express.json());
 app.use(AuthRouter);
 app.use(ClassificacaoRouter);

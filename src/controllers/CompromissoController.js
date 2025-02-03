@@ -23,13 +23,14 @@ class CompromissoController {
     async postCompromisso(req, res) {
         try{
             const { usuario_id } = req.userData;
-            const { titulo, descricao, dataCompromisso, horario } = req.body;
+            const { titulo, descricao, dataCompromisso, horario, classificacao } = req.body;
             const result = await CompromissoService.postCompromisso(
                 usuario_id,
                 titulo,
                 descricao,
                 dataCompromisso,
-                horario
+                horario,
+                classificacao,
             );
             const response = ResponseModel(
                 201,
@@ -47,7 +48,8 @@ class CompromissoController {
     async putCompromisso(req, res) {
         try{
             const { compromisso_id } = req.params;
-            const { usuario_id, titulo, descricao, dataCompromisso, horario } = req.body;
+            const { usuario_id } = req.userData;
+            const { titulo, descricao, dataCompromisso, horario } = req.body;
             const result = await CompromissoService.putCompromisso(
                 compromisso_id,
                 usuario_id,
@@ -63,6 +65,7 @@ class CompromissoController {
             );
             res.status(200).send(response);
         }catch (error){
+            console.log(error);
             const response = ResponseModel(404, null, MessageModel.putFail("compromisso"));
             res.status(404).send(response);
         }

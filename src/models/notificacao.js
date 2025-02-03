@@ -23,6 +23,11 @@ const Notificacao = sequelize.define("Notificacao", {
     hora: {
         type: DataTypes.DATE,
         allowNull: false
+    },
+    visualizado: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
     }
 });
 

@@ -20,14 +20,14 @@ class NotificacaoService {
         return results[0]
     }
 
-    async putNotificacao(notificacao_id, titulo, descricao, hora){
+    async putNotificacao(notificacao_id, titulo, descricao, hora, visualizado){
         const query = `
             UPDATE notificacao
-            SET  titulo = :titulo, descricao = :descricao, hora = :hora
+            SET  titulo = :titulo, descricao = :descricao, hora = :hora, visualizado = :visualizado
             WHERE id = :notificacao_id
             RETURNING*`;
         const [results] = await sequelize.query(query, {
-            replacements: { notificacao_id, titulo, descricao, hora },
+            replacements: { notificacao_id, titulo, descricao, hora, visualizado },
         });
 
         if (results.length === 0) {

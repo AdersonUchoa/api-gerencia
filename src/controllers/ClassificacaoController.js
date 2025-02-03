@@ -21,7 +21,8 @@ class ClassificacaoController {
 
     async postClassificacao(req, res) {
         try{
-            const { usuario_id, titulo } = req.body;
+            const { usuario_id } = req.userData;
+            const { titulo } = req.body;
             const result = await ClassificacaoService.postClassificacao(
                 usuario_id,
                 titulo
@@ -33,6 +34,7 @@ class ClassificacaoController {
             );
             res.status(201).send(response);
         }catch (error){
+            console.log(error);
             const response = ResponseModel(404, null, MessageModel.postFail("classificacao"));
             res.status(404).send(response);
         }
@@ -41,7 +43,8 @@ class ClassificacaoController {
     async putClassificacao(req, res) {
         try{
             const { classificacao_id } = req.params;
-            const { usuario_id, titulo } = req.body;
+            const { usuario_id } = req.userData;
+            const { titulo } = req.body;
             const result = await ClassificacaoService.putClassificacao(
                 classificacao_id,
                 usuario_id,
@@ -54,6 +57,7 @@ class ClassificacaoController {
             );
             res.status(200).send(response);
         }catch (error){
+            console.log(error);
             const response = ResponseModel(404, null, MessageModel.putFail("classificacao"));
             res.status(404).send(response);
         }

@@ -45,12 +45,13 @@ class NotificacaoController {
     async putNotificacao(req, res) {
         try{
             const { notificacao_id } = req.params;
-            const { titulo, descricao, hora } = req.body;
+            const { titulo, descricao, hora, visualizado } = req.body;
             const result = await NotificacaoService.putNotificacao(
                 notificacao_id,
                 titulo,
                 descricao,
                 hora,
+                visualizado,
             );
             const response = ResponseModel(
                 200,

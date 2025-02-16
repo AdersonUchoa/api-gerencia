@@ -11,6 +11,7 @@ const CompromissoRouter = require("./src/routers/CompromissoRouter");
 const NotificacaoRouter = require("./src/routers/NotificacaoRouter");
 const TarefaRouter = require("./src/routers/TarefaRouter");
 const UsuarioRouter = require("./src/routers/UsuarioRouter");
+const ReportRouter = require("./src/routers/ReportRouter");
 
 app.use(cors());
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use(CompromissoRouter);
 app.use(NotificacaoRouter);
 app.use(TarefaRouter);
 app.use(UsuarioRouter);
+app.use(ReportRouter);
 
 
 // Rota para a raiz

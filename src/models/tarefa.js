@@ -22,7 +22,7 @@ const Tarefa = sequelize.define("Tarefa", {
     },
     dataConclusao: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
     } 
 });
 

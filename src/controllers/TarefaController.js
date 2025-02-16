@@ -23,12 +23,11 @@ class TarefaController {
     async postTarefa(req, res) {
         try{
             const { compromisso_id } = req.params;
-            const { descricao, status, dataConclusao } = req.body;
+            const { descricao, status } = req.body;
             const result = await TarefaService.postTarefa(
                 compromisso_id,
                 descricao,
                 status,
-                dataConclusao
             );
             const response = ResponseModel(
                 201,

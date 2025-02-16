@@ -8,13 +8,13 @@ class TarefaService {
         return response;
     }
 
-    async postTarefa(compromisso_id, descricao, status, dataConclusao){
+    async postTarefa(compromisso_id, descricao, status){
         const query = `
-            INSERT INTO tarefa (idCompromisso, descricao, status, dataConclusao)
-            VALUES (:compromisso_id, :descricao, :status, :dataConclusao)
+            INSERT INTO tarefa (idCompromisso, descricao, status)
+            VALUES (:compromisso_id, :descricao, :status)
             RETURNING*`;
         const [results] = await sequelize.query(query, { 
-            replacements: { compromisso_id, descricao, status, dataConclusao },
+            replacements: { compromisso_id, descricao, status },
         });
 
         return results[0]

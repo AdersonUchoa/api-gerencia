@@ -26,9 +26,11 @@ class NotificacaoController {
 
   async postNotificacao(req, res) {
     try {
+      const { usuario_id } = req.userData;
       const { compromisso_id } = req.params;
       const { titulo, descricao, hora } = req.body;
       const result = await NotificacaoService.postNotificacao(
+        usuario_id,
         compromisso_id,
         titulo,
         descricao,
@@ -133,6 +135,7 @@ class NotificacaoController {
       );
       res.status(200).send(response);
     } catch (error) {
+      console.log(error);
       const response = ResponseModel(
         404,
         null,

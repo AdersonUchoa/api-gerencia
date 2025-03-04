@@ -7,7 +7,9 @@ class CompromissoService {
       `
             SELECT 
                 c.*, 
-                array_agg(cl.titulo) AS classificacao
+                array_agg(cl.titulo) AS classificacao,
+                (select json_agg(t.*) from tarefa t where t.idcompromisso = c.id) AS tarefa,
+                (select json_agg(n.*) from notificacao n where n.idcompromisso = c.id)  AS notificacao
             FROM compromisso c
             LEFT JOIN compromissoclassificacao cp ON c.id = cp.idcompromisso
             LEFT JOIN classificacao cl ON cl.id = cp.idclassificacao
@@ -19,8 +21,7 @@ class CompromissoService {
       }
     );
 
-    const response = results.map(CompromissoResponse.fromModel);
-    return response;
+    return results;
   }
 
   async postComprissoAll({
@@ -145,12 +146,12 @@ class CompromissoService {
     usuario_id,
     titulo,
     descricao,
-    dataCompromisso,
+    datacompromisso,
     horario
   ) {
     const query = `
             UPDATE compromisso
-            SET idUsuario = :usuario_id, titulo = :titulo, descricao = :descricao, dataCompromisso = :dataCompromisso, horario = :horario
+            SET idUsuario = :usuario_id, titulo = :titulo, descricao = :descricao, datacompromisso = :datacompromisso, horario = :horario
             WHERE id = :compromisso_id
             RETURNING*`;
     const [results] = await sequelize.query(query, {
@@ -159,27 +160,26 @@ class CompromissoService {
         usuario_id,
         titulo,
         descricao,
-        dataCompromisso,
+        datacompromisso,
         horario,
       },
     });
-
-    if (results.length === 0) {
-      throw Error("Compromisso não encontrado!");
-    }
-
     return results[0];
   }
 
   async deleteCompromisso(compromisso_id) {
-    const query = `DELETE FROM compromisso WHERE id = :compromisso_id RETURNING*`;
+    const query = `
+      delete from compromissoclassificacao where idcompromisso = :compromisso_id;
+      delete from notificacaousuario where idnotificacao in (
+        select id from notificacao where idcompromisso = :compromisso_id
+      );
+      delete from notificacao where idcompromisso = :compromisso_id;
+      delete from tarefa where idcompromisso = :compromisso_id; 
+      delete from compromisso where id = :compromisso_id;
+    `;
     const [results] = await sequelize.query(query, {
       replacements: { compromisso_id },
     });
-
-    if (results.length === 0) {
-      throw Error("Compromisso não encontrado!");
-    }
 
     return results[0];
   }

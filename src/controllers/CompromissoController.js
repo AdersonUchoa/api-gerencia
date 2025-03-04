@@ -98,13 +98,13 @@ class CompromissoController {
     try {
       const { compromisso_id } = req.params;
       const { usuario_id } = req.userData;
-      const { titulo, descricao, dataCompromisso, horario } = req.body;
+      const { titulo, descricao, datacompromisso, horario } = req.body;
       const result = await CompromissoService.putCompromisso(
         compromisso_id,
         usuario_id,
         titulo,
         descricao,
-        dataCompromisso,
+        datacompromisso,
         horario
       );
       const response = ResponseModel(
@@ -135,6 +135,7 @@ class CompromissoController {
       );
       res.status(200).send(response);
     } catch (error) {
+      console.log(error);
       const response = ResponseModel(
         404,
         null,

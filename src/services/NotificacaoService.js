@@ -46,7 +46,7 @@ class NotificacaoService {
     return results;
   }
 
-  async postNotificacao(compromisso_id, titulo, descricao, hora) {
+  async postNotificacao(usuario_id, compromisso_id, titulo, descricao, hora) {
     const query = `
             INSERT INTO notificacao (idCompromisso, titulo, descricao, hora)
             VALUES (:compromisso_id, :titulo, :descricao, :hora)
@@ -55,6 +55,15 @@ class NotificacaoService {
       replacements: { compromisso_id, titulo, descricao, hora },
     });
 
+    const [results2] = await sequelize.query(
+      `
+            INSERT INTO notificacaousuario (idnotificacao, idusuario)
+            VALUES (:idnotificacao, :idusuario);
+      `,
+      {
+        replacements: { idnotificacao: results[0].id, idusuario: usuario_id },
+      }
+    );
     return results[0];
   }
 
@@ -76,14 +85,12 @@ class NotificacaoService {
   }
 
   async deleteNotificacao(notificacao_id) {
-    const query = `DELETE FROM notificacao WHERE id = :notificacao_id RETURNING*`;
+    const query = `
+    delete from notificacaousuario where idnotificacao = :notificacao_id;
+    delete from notificacao where id = :notificacao_id;`;
     const [results] = await sequelize.query(query, {
       replacements: { notificacao_id },
     });
-
-    if (results.length === 0) {
-      throw Error("Notificação não encontrada!");
-    }
 
     return results[0];
   }

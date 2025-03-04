@@ -46,31 +46,44 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "MS_vFTTI2@trial-3vz9dlen93plkj50.mlsender.net", // Seu e-mail do Outlook/Hotmail/Office365
-    pass: "mssp.KghwuwV.pr9084z1yn8gw63d.W1kaJL8", // Senha do e-mail (ou senha de aplicativo)
+    user: "MS_vFTTI2@trial-3vz9dlen93plkj50.mlsender.net",
+    pass: "mssp.KghwuwV.pr9084z1yn8gw63d.W1kaJL8",
   },
-});
-
-transporter.sendMail({
-  from: "MS_vFTTI2@trial-3vz9dlen93plkj50.mlsender.net",
-  to: "iamuchoa@gmail.com",
-  subject: "Teste de envio de e-mail",
-  text: "Ola, tudo bem?",
 });
 
 setInterval(async () => {
   try {
-    await sequelize.query(`
-        SELECT n.id, n.titulo, n.descricao, u.email
+    const [results] = await sequelize.query(
+      `
+        SELECT n.id, n.hora, n.titulo, n.descricao, u.email
         FROM notificacao n
         JOIN notificacaousuario nu ON n.id = nu.idnotificacao
         JOIN usuario u ON nu.idusuario = u.id
-        WHERE nu.notificado = false
-    `);
+        WHERE nu.notificado = false 
+        and n.hora < CURRENT_DATE 
+    `,
+      {
+        logging: false,
+      }
+    );
+
+    for (const notificacao of results) {
+      await sequelize.query(`
+        UPDATE notificacaousuario
+        SET notificado = true
+        WHERE idnotificacao = ${notificacao.id}
+      `);
+      transporter.sendMail({
+        from: "MS_vFTTI2@trial-3vz9dlen93plkj50.mlsender.net",
+        to: notificacao.email,
+        subject: notificacao.titulo,
+        text: notificacao.descricao,
+      });
+    }
   } catch (error) {
     console.log(`Erro ao enviar um email: ${error}`);
   }
-}, 3000);
+}, 1000 * 30);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

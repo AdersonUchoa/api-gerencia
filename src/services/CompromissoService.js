@@ -24,6 +24,28 @@ class CompromissoService {
     return results;
   }
 
+  async getCompromissoById(compromisso_id) {
+    let [results] = await sequelize.query(
+      `
+            SELECT 
+                c.*, 
+                array_agg(cl.titulo) AS classificacao,
+                (select json_agg(t.*) from tarefa t where t.idcompromisso = c.id) AS tarefa,
+                (select json_agg(n.*) from notificacao n where n.idcompromisso = c.id)  AS notificacao
+            FROM compromisso c
+            LEFT JOIN compromissoclassificacao cp ON c.id = cp.idcompromisso
+            LEFT JOIN classificacao cl ON cl.id = cp.idclassificacao
+            WHERE c.id = :compromisso_id
+            GROUP BY c.id
+        `,
+      {
+        replacements: { compromisso_id },
+      }
+    );
+
+    return results;
+  }
+
   async postComprissoAll({
     usuario_id,
     titulo,

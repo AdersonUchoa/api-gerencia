@@ -11,7 +11,25 @@ router.post(
   NotificacaoController.postReadAll
 );
 
+router.post(
+  "/notificacao/pessoa",
+  verifyAuth,
+  NotificacaoController.postNotificacaoPessoa
+);
+
 router.post("/notificacao/:id", verifyAuth, NotificacaoController.postRead);
+
+router.get(
+  "/notificacao/:id",
+  verifyAuth,
+  NotificacaoController.getNotificacaoId
+);
+
+router.delete(
+  "/notificacao/pessoa",
+  verifyAuth,
+  NotificacaoController.deleteNotificacaoPessoa
+);
 
 router.get(
   "/compromisso/:compromisso_id/notificacao",

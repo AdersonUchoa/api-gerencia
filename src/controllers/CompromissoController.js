@@ -24,6 +24,29 @@ class CompromissoController {
     }
   }
 
+  async getCompromissoId(req, res) {
+    try {
+      const { compromisso_id } = req.params;
+      const result = await CompromissoService.getCompromissoById(
+        compromisso_id
+      );
+      const response = ResponseModel(
+        200,
+        result,
+        MessageModel.getSucess("compromisso")
+      );
+      res.status(200).send(response);
+    } catch (error) {
+      console.log(error);
+      const response = ResponseModel(
+        404,
+        null,
+        MessageModel.getFail("compromisso")
+      );
+      res.status(404).send(response);
+    }
+  }
+
   async postCompromissoAll(req, res) {
     try {
       const { usuario_id } = req.userData;

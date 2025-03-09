@@ -5,7 +5,7 @@ class NotificacaoService {
   async getNotificacao(id) {
     const [results] = await sequelize.query(
       `
-            select nu.idnotificacao, nu.idusuario, n.titulo, n.descricao, n.hora, nu.visualizado
+            select nu.idnotificacao, n.idcompromisso, nu.idusuario, n.titulo, n.descricao, n.hora, nu.visualizado
             from notificacaousuario nu
             join notificacao n on n.id = nu.idnotificacao
             where nu.idusuario = :idusuario  
@@ -15,10 +15,24 @@ class NotificacaoService {
       }
     );
 
-    const response = results.map(NotificacaoResponse.fromModel);
-    return response;
+    return results;
   }
 
+  async getNotificacaoById(id) {
+    const [results] = await sequelize.query(
+      `
+          select nu.*, u.nome
+          from notificacaousuario nu
+          join usuario u on u.id = nu.idusuario
+          where nu.idnotificacao = :idnotificacao
+        `,
+      {
+        replacements: { idnotificacao: id },
+      }
+    );
+
+    return results;
+  }
   async postReadAll(id) {
     const [results] = await sequelize.query(
       `
@@ -67,6 +81,19 @@ class NotificacaoService {
     return results[0];
   }
 
+  async postNotificacaoPessoa(idnotificacao, idusuario) {
+    const [results] = await sequelize.query(
+      `
+            INSERT INTO notificacaousuario (idnotificacao, idusuario)
+            VALUES (:idnotificacao, :idusuario);
+      `,
+      {
+        replacements: { idnotificacao, idusuario },
+      }
+    );
+    return results;
+  }
+
   async putNotificacao(notificacao_id, titulo, descricao, hora, visualizado) {
     const query = `
             UPDATE notificacao
@@ -93,6 +120,16 @@ class NotificacaoService {
     });
 
     return results[0];
+  }
+
+  async deleteNotificacaoPessoa(idnotificacao, idusuario) {
+    const query = `
+    delete from notificacaousuario where idnotificacao = :idnotificacao and idusuario = :idusuario;`;
+    const [results] = await sequelize.query(query, {
+      replacements: { idnotificacao, idusuario },
+    });
+
+    return results;
   }
 }
 

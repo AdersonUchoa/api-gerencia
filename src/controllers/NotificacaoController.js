@@ -24,6 +24,27 @@ class NotificacaoController {
     }
   }
 
+  async getNotificacaoId(req, res) {
+    try {
+      const { id } = req.params;
+      const result = await NotificacaoService.getNotificacaoById(id);
+      const response = ResponseModel(
+        200,
+        result,
+        MessageModel.getSucess("notificacao")
+      );
+      res.status(200).send(response);
+    } catch (error) {
+      console.log(error);
+      const response = ResponseModel(
+        404,
+        null,
+        MessageModel.getFail("notificacao")
+      );
+      res.status(404).send(response);
+    }
+  }
+
   async postNotificacao(req, res) {
     try {
       const { usuario_id } = req.userData;
@@ -35,6 +56,30 @@ class NotificacaoController {
         titulo,
         descricao,
         hora
+      );
+      const response = ResponseModel(
+        201,
+        result,
+        MessageModel.postSucess("notificacao")
+      );
+      res.status(201).send(response);
+    } catch (error) {
+      console.log(error);
+      const response = ResponseModel(
+        404,
+        null,
+        MessageModel.postFail("notificacao")
+      );
+      res.status(404).send(response);
+    }
+  }
+
+  async postNotificacaoPessoa(req, res) {
+    try {
+      const { idnotificacao, idusuario } = req.body;
+      const result = await NotificacaoService.postNotificacaoPessoa(
+        idnotificacao,
+        idusuario
       );
       const response = ResponseModel(
         201,
@@ -136,6 +181,29 @@ class NotificacaoController {
       res.status(200).send(response);
     } catch (error) {
       console.log(error);
+      const response = ResponseModel(
+        404,
+        null,
+        MessageModel.deleteFail("notificacao")
+      );
+      res.status(404).send(response);
+    }
+  }
+
+  async deleteNotificacaoPessoa(req, res) {
+    try {
+      const { idnotificacao, idusuario } = req.body;
+      const result = await NotificacaoService.deleteNotificacaoPessoa(
+        idnotificacao,
+        idusuario
+      );
+      const response = ResponseModel(
+        200,
+        result,
+        MessageModel.deleteSucess("notificacao")
+      );
+      res.status(200).send(response);
+    } catch (error) {
       const response = ResponseModel(
         404,
         null,

@@ -4,6 +4,11 @@ const { verifyAuth } = require("../middleware/auth");
 const CompromissoController = require("../controllers/CompromissoController");
 
 router.get("/compromisso", verifyAuth, CompromissoController.getCompromisso);
+router.get(
+  "/compromisso/:compromisso_id",
+  verifyAuth,
+  CompromissoController.getCompromissoId
+);
 router.post("/compromisso", verifyAuth, CompromissoController.postCompromisso);
 
 router.post(
